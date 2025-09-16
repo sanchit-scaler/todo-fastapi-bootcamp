@@ -25,3 +25,14 @@ async def add_task(request: Request):
     # Use 303 status code for proper POST-to-GET redirect
     # This tells the browser to make a GET request to the redirect URL
     return RedirectResponse(url="/", status_code=303)
+
+@app.post("/delete")
+async def delete_task(request: Request):
+    data = await request.form()
+    task_id = data["task_id"]
+    with open("db.json", "r") as f:
+        db = json.load(f)
+    del db[task_id]
+    with open("db.json", "w") as f:
+        json.dump(db, f)
+    return RedirectResponse(url="/", status_code=303)
