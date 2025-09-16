@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello World from Templates</h1>
-    <h1>{{ data }}</h1>
+    <div class="h-screen w-full bg-black text-white p-4 flex flex-col items-center justify-center">
+    <div class="text-3xl font-bold">To Do List</div>
+    <div>{{ data }}</div>
+    </div>
 </body>
 </html>
