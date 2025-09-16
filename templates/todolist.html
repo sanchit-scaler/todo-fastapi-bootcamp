@@ -9,7 +9,11 @@
 <body>
     <div class="h-screen w-full bg-black text-white p-4 flex flex-col items-center justify-center">
     <div class="text-3xl font-bold">To Do List</div>
-    <div>{{ data }}</div>
+    {% for key, value in data.items() %}
+    <div class="flex flex-col items-center justify-center">
+    <div>{{ key }} - {{ value }}</div>
+    </div>
+    {% endfor %}
     </div>
 </body>
 </html>
