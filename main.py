@@ -36,3 +36,15 @@ async def delete_task(request: Request):
     with open("db.json", "w") as f:
         json.dump(db, f)
     return RedirectResponse(url="/", status_code=303)
+
+@app.post("/edit")
+async def edit_task(request: Request):
+    data = await request.form()
+    task_id = data["task_id"]
+    new_task = data["new_task"]
+    with open("db.json", "r") as f:
+        db = json.load(f)
+    db[task_id] = new_task
+    with open("db.json", "w") as f:
+        json.dump(db, f)
+    return RedirectResponse(url="/", status_code=303)
