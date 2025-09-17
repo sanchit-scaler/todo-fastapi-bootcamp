@@ -14,33 +14,31 @@
         <div class="w-full max-w-2xl mb-8 space-y-3">
             {% for key, value in data.items() %}
             <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-between group">
-                <div class="flex-1 flex items-center">
-                    <!-- <span class="text-sm text-gray-400 mr-3">#{{ key }}</span> -->
-                    <span class="text-white">{{ value }}</span>
-                </div>
-                
-                <div class="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <!-- Edit Form -->
-                    <form action="/edit" method="post" class="flex items-center space-x-2">
+                <div class="flex-1 flex items-center mr-4">
+                    <span class="text-white task-text">{{ value }}</span>
+                    <form action="/edit" method="post" class="edit-form hidden w-full">
                         <input type="hidden" name="task_id" value="{{ key }}">
                         <input 
                             type="text" 
                             name="new_task" 
-                            placeholder="{{ value }}"
-                            class="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 text-sm"
+                            value="{{ value }}"
+                            class="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 text-sm w-full"
                         >
-                        <button 
-                            type="submit" 
-                            class="p-2 text-blue-400 hover:text-blue-300 hover:bg-gray-700 rounded transition-colors"
-                            title="Edit task"
-                        >
-                            <!-- Pencil SVG Icon -->
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg>
-                        </button>
                     </form>
+                </div>
+                
+                <div class="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                        type="button" 
+                        class="edit-button p-2 text-blue-400 hover:text-blue-300 hover:bg-gray-700 rounded transition-colors"
+                        title="Edit task"
+                    >
+                        <!-- Pencil SVG Icon -->
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
                     
                     <!-- Delete Form -->
                     <form action="/delete" method="post" class="inline">
@@ -83,5 +81,47 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editButtons = document.querySelectorAll('.edit-button');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const taskContainer = button.closest('.group');
+                    const taskText = taskContainer.querySelector('.task-text');
+                    const editForm = taskContainer.querySelector('.edit-form');
+                    const editInput = editForm.querySelector('input[name="new_task"]');
+
+                    taskText.classList.add('hidden');
+                    editForm.classList.remove('hidden');
+                    editInput.focus();
+                    editInput.select();
+
+                    const cancelEditing = () => {
+                        taskText.classList.remove('hidden');
+                        editForm.classList.add('hidden');
+                        document.removeEventListener('click', outsideClickListener);
+                    };
+
+                    const outsideClickListener = (event) => {
+                        if (!editForm.contains(event.target) && !button.contains(event.target)) {
+                            cancelEditing();
+                        }
+                    };
+
+                    editInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            editForm.submit();
+                        } else if (e.key === 'Escape') {
+                            cancelEditing();
+                        }
+                    });
+
+                    document.addEventListener('click', outsideClickListener);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
