@@ -15,9 +15,9 @@ A modern, full-featured Todo List application built with FastAPI and Jinja2 temp
 
 - **Backend**: FastAPI (Python web framework)
 - **Templating**: Jinja2 (HTML templating engine)
-- **Styling**: Tailwind CSS (utility-first CSS framework)
+- **Styling**: Tailwind CSS (utility-first CSS framework) via CDN
 - **Data Storage**: JSON file-based storage
-- **Icons**: Custom SVG icons for actions
+- **Icons**: Inline SVG icons for actions
 
 ## Installation
 
@@ -106,9 +106,9 @@ todo-fastapi-bootcamp/
 Tasks are stored in `db.json` with the following structure:
 ```json
 {
-  "1": "First task",
-  "2": "Second task",
-  "3": "Third task"
+  "1": "Sample To Do",
+  "2": "Sample To Do 2", 
+  "3": "Sample To Do 3"
 }
 ```
 
@@ -131,10 +131,10 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ## Customization
 
 ### Styling
-The application uses Tailwind CSS classes. You can customize the appearance by modifying the classes in `templates/todolist.html`.
+The application uses Tailwind CSS classes loaded via CDN. You can customize the appearance by modifying the classes in `templates/todolist.html`. For production use, consider installing Tailwind CSS locally for better performance.
 
 ### Icons
-SVG icons are embedded directly in the HTML. You can replace them with different icons by modifying the SVG paths in the template.
+Inline SVG icons are embedded directly in the HTML template. You can replace them with different icons by modifying the SVG paths in `templates/todolist.html`.
 
 ### Database
 To use a different storage backend, modify the file operations in `main.py` to use your preferred database.
